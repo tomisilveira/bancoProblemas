@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Banco de Problemas Provincial creado por la Agencia Neuquina de Innovación para el Desarrollo</title>
+  <title>Banco de Problemas Provincial · Agencia Neuquina de Innovación para el Desarrollo</title>
   <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet">
   <style>
     :root {
@@ -12,6 +12,7 @@
       --white: #ffffff;
       --text: #0f0f14;
       --muted: #8a8898;
+      --border: #e8e3db;
       --limay: #ff4e1a;
       --lagos: #00b4d8;
       --vaca: #6c29c9;
@@ -21,7 +22,9 @@
       --confluencia: #14b8a6;
     }
 
-    * {
+    *,
+    *::before,
+    *::after {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
@@ -35,7 +38,7 @@
       display: flex;
     }
 
-    /* SIDEBAR */
+    /* ── SIDEBAR ─────────────────────────────────────────── */
     .sidebar {
       width: 280px;
       flex-shrink: 0;
@@ -51,11 +54,10 @@
 
     .sidebar-logo {
       padding: 36px 28px 24px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
     }
 
     .sidebar-logo h2 {
-      font-family: 'Google Sans', sans-serif;
       font-size: 1.3rem;
       font-weight: 700;
       line-height: 1.3;
@@ -66,58 +68,57 @@
     }
 
     .sidebar-logo p {
-      color: rgba(255, 255, 255, 0.6);
-      font-size: 0.75rem;
+      color: rgba(255, 255, 255, .5);
+      font-size: .72rem;
       margin-top: 6px;
-      line-height: 1.4;
+      line-height: 1.5;
     }
 
     .sidebar-stats {
       padding: 20px 28px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
       display: flex;
-      gap: 20px;
+      gap: 16px;
     }
 
     .s-stat .num {
-      font-family: 'Google Sans', sans-serif;
       font-size: 2rem;
       font-weight: 700;
       line-height: 1;
     }
 
     .s-stat .lbl {
-      color: rgba(255, 255, 255, 0.4);
-      font-size: 0.65rem;
+      color: rgba(255, 255, 255, .4);
+      font-size: .62rem;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: .1em;
       margin-top: 2px;
     }
 
     .sidebar-search {
       padding: 16px 28px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
     }
 
     .s-search {
       width: 100%;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .12);
       color: white;
       font-family: 'Google Sans', sans-serif;
-      font-size: 0.8rem;
+      font-size: .8rem;
       padding: 10px 14px;
       outline: none;
       border-radius: 4px;
-      transition: border-color 0.2s;
+      transition: border-color .2s;
     }
 
     .s-search::placeholder {
-      color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, .28);
     }
 
     .s-search:focus {
-      border-color: rgba(255, 255, 255, 0.4);
+      border-color: rgba(255, 255, 255, .4);
     }
 
     .sidebar-regions {
@@ -127,10 +128,10 @@
 
     .sidebar-section-label {
       padding: 0 28px 8px;
-      font-size: 0.62rem;
+      font-size: .6rem;
       text-transform: uppercase;
-      letter-spacing: 0.15em;
-      color: rgba(255, 255, 255, 0.3);
+      letter-spacing: .15em;
+      color: rgba(255, 255, 255, .28);
     }
 
     .region-item {
@@ -139,17 +140,18 @@
       gap: 10px;
       padding: 10px 28px;
       cursor: pointer;
-      transition: background 0.15s;
-      font-size: 0.82rem;
+      transition: background .15s;
+      font-size: .82rem;
       font-weight: 500;
+      user-select: none;
     }
 
     .region-item:hover {
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, .06);
     }
 
     .region-item.active {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, .11);
     }
 
     .region-color-bar {
@@ -161,14 +163,14 @@
 
     .region-count {
       margin-left: auto;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, .1);
       border-radius: 100px;
-      padding: 1px 7px;
-      font-size: 0.65rem;
-      color: rgba(255, 255, 255, 0.5);
+      padding: 1px 8px;
+      font-size: .62rem;
+      color: rgba(255, 255, 255, .45);
     }
 
-    /* MAIN */
+    /* ── MAIN ────────────────────────────────────────────── */
     .main {
       flex: 1;
       overflow-y: auto;
@@ -180,11 +182,12 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid #e5e0d8;
+      border-bottom: 1px solid var(--border);
+      gap: 16px;
+      flex-wrap: wrap;
     }
 
     .main-header h1 {
-      font-family: 'Google Sans', sans-serif;
       font-size: 1.8rem;
       font-weight: 700;
     }
@@ -194,196 +197,143 @@
     }
 
     .active-region-badge {
-      display: inline-flex;
+      display: none;
       align-items: center;
-      gap: 8px;
       padding: 6px 16px;
       border-radius: 100px;
-      font-size: 0.75rem;
+      font-size: .75rem;
       font-weight: 600;
       color: white;
-      transition: background 0.2s;
     }
 
+    /* ── TABLE ───────────────────────────────────────────── */
     .table-area {
-      padding: 0 48px 48px;
+      padding: 0 48px 80px;
     }
 
     .t-header {
       display: grid;
-      grid-template-columns: 24px 200px 1fr 32px;
+      grid-template-columns: 28px 200px 1fr 32px;
       gap: 16px;
       padding: 12px 16px;
-      font-size: 0.65rem;
+      font-size: .63rem;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
+      letter-spacing: .13em;
       color: var(--muted);
       margin-top: 20px;
+      border-bottom: 1px solid var(--border);
     }
 
     .t-row {
       display: grid;
-      grid-template-columns: 24px 200px 1fr 32px;
+      grid-template-columns: 28px 200px 1fr 32px;
       gap: 16px;
       padding: 18px 16px;
-      border-bottom: 1px solid #e8e3db;
+      border-bottom: 1px solid var(--border);
       align-items: center;
       cursor: pointer;
-      transition: all 0.15s;
+      transition: all .15s;
       border-radius: 4px;
       margin: 0 -4px;
     }
 
     .t-row:hover {
       background: white;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      box-shadow: 0 2px 14px rgba(0, 0, 0, .06);
       border-color: transparent;
     }
 
     .t-index {
-      font-size: 0.7rem;
+      font-size: .68rem;
       color: var(--muted);
       font-weight: 500;
     }
 
-    .t-loc-block {}
-
     .t-region-tag {
       display: inline-block;
-      padding: 2px 8px;
+      padding: 3px 9px;
       border-radius: 3px;
-      font-size: 0.62rem;
+      font-size: .6rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: .07em;
       color: white;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
+      white-space: nowrap;
     }
 
     .t-location {
-      font-size: 0.74rem;
+      font-size: .72rem;
       color: var(--muted);
     }
 
     .t-name {
-      font-size: 0.9rem;
+      font-size: .88rem;
       font-weight: 500;
       line-height: 1.4;
     }
 
     .t-chevron {
       color: var(--muted);
-      font-size: 0.8rem;
-      transition: all 0.2s;
+      font-size: .85rem;
       justify-self: end;
+      transition: all .18s;
     }
 
     .t-row:hover .t-chevron {
       color: var(--text);
-      transform: translateX(2px);
+      transform: translateX(3px);
     }
 
-    /* PANEL */
-    .detail-panel {
-      position: fixed;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      width: 460px;
-      background: white;
-      box-shadow: -8px 0 40px rgba(0, 0, 0, 0.12);
-      transform: translateX(100%);
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 200;
-      overflow-y: auto;
-      display: flex;
+    /* ── ESTADOS ─────────────────────────────────────────── */
+    .state-msg {
+      padding: 80px 16px;
+      text-align: center;
+      color: var(--muted);
+      font-size: .85rem;
+      display: none;
       flex-direction: column;
+      align-items: center;
+      gap: 4px;
     }
 
-    .detail-panel.open {
-      transform: translateX(0);
+    .state-msg .icon {
+      font-size: 2rem;
+      margin-bottom: 8px;
     }
 
-    .panel-top {
-      padding: 32px 36px 24px;
-      position: sticky;
-      top: 0;
-      background: white;
-      border-bottom: 1px solid #f0ebe4;
+    .state-msg small {
+      font-size: .72rem;
+      opacity: .7;
+      line-height: 1.7;
+      margin-top: 4px;
     }
 
-    .panel-close {
-      display: flex;
-      justify-content: flex-end;
-      margin-bottom: 20px;
-    }
-
-    .close-btn {
-      width: 32px;
-      height: 32px;
-      border: 1px solid #e8e3db;
+    .spinner {
+      width: 28px;
+      height: 28px;
+      border: 3px solid var(--border);
+      border-top-color: var(--text);
       border-radius: 50%;
-      background: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      color: var(--muted);
-      transition: all 0.15s;
+      animation: spin .7s linear infinite;
+      margin-bottom: 4px;
     }
 
-    .close-btn:hover {
-      background: var(--text);
-      color: white;
-      border-color: var(--text);
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
     }
 
-    .panel-region-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 12px;
-      border-radius: 4px;
-      font-size: 0.68rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: white;
-      margin-bottom: 12px;
-    }
-
-    .panel-location {
-      color: var(--muted);
-      font-size: 0.78rem;
-      margin-bottom: 16px;
-    }
-
-    .panel-title {
-      font-family: 'Google Sans', sans-serif;
-      font-size: 1.35rem;
-      font-weight: 700;
-      line-height: 1.3;
-    }
-
-    .panel-body {
-      padding: 28px 36px;
-    }
-
-    .panel-body p {
-      color: #555560;
-      font-size: 0.85rem;
-      line-height: 1.85;
-    }
-
+    /* ── OVERLAY ─────────────────────────────────────────── */
     .overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0, 0, 0, 0.2);
-      z-index: 100;
+      background: rgba(0, 0, 0, .25);
+      z-index: 199;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.3s;
+      transition: opacity .3s;
       backdrop-filter: blur(2px);
     }
 
@@ -392,14 +342,234 @@
       pointer-events: all;
     }
 
-    .no-results {
-      padding: 60px 16px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.85rem;
+    /* ── PANEL ───────────────────────────────────────────── */
+    .detail-panel {
+      position: fixed;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 540px;
+      background: white;
+      box-shadow: -8px 0 48px rgba(0, 0, 0, .13);
+      transform: translateX(100%);
+      transition: transform .32s cubic-bezier(.4, 0, .2, 1);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
     }
 
-    /* RESPONSIVE DESIGN */
+    .detail-panel.open {
+      transform: translateX(0);
+    }
+
+    .panel-head {
+      padding: 24px 32px 20px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .panel-head-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .panel-meta {
+      flex: 1;
+    }
+
+    .panel-region-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-size: .62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .09em;
+      color: white;
+      margin-bottom: 8px;
+    }
+
+    .panel-location {
+      color: var(--muted);
+      font-size: .76rem;
+      margin-bottom: 10px;
+    }
+
+    .panel-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .close-btn {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: var(--muted);
+      transition: all .15s;
+      flex-shrink: 0;
+    }
+
+    .close-btn:hover {
+      background: var(--text);
+      color: white;
+      border-color: var(--text);
+    }
+
+    /* tabs */
+    .panel-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .panel-tab {
+      flex: 1;
+      padding: 12px 0;
+      text-align: center;
+      font-size: .78rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--muted);
+      border-bottom: 2px solid transparent;
+      transition: all .15s;
+      user-select: none;
+    }
+
+    .panel-tab:hover {
+      color: var(--text);
+    }
+
+    .panel-tab.active {
+      color: var(--text);
+      border-bottom-color: var(--text);
+    }
+
+    .panel-tabs.no-doc .tab-doc {
+      display: none;
+    }
+
+    /* cuerpos */
+    .panel-bodies {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .panel-body-resumen {
+      position: absolute;
+      inset: 0;
+      overflow-y: auto;
+      padding: 28px 32px 48px;
+      transition: opacity .2s;
+    }
+
+    .panel-body-resumen p {
+      color: #55555f;
+      font-size: .85rem;
+      line-height: 1.9;
+      white-space: pre-line;
+    }
+
+    .panel-body-resumen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* aviso cuando no hay doc todavía */
+    .no-doc-hint {
+      margin: 32px;
+      padding: 18px 20px;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 6px;
+      font-size: .78rem;
+      color: #92400e;
+      line-height: 1.7;
+    }
+
+    .no-doc-hint strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: .82rem;
+    }
+
+    .no-doc-hint code {
+      background: rgba(0, 0, 0, .06);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: .75rem;
+    }
+
+    .panel-body-doc {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      transition: opacity .2s;
+    }
+
+    .panel-body-doc.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .doc-frame {
+      flex: 1;
+      border: none;
+      width: 100%;
+      background: #f9f9f9;
+    }
+
+    .doc-loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: .8rem;
+      background: white;
+      transition: opacity .3s;
+    }
+
+    .doc-loading.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .doc-open-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 10px;
+      border-top: 1px solid var(--border);
+      font-size: .75rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .15s;
+      flex-shrink: 0;
+    }
+
+    .doc-open-link:hover {
+      color: var(--text);
+    }
+
+    /* ── MOBILE ──────────────────────────────────────────── */
     .mobile-header {
       display: none;
       background: var(--text);
@@ -413,10 +583,8 @@
     }
 
     .mobile-header h2 {
-      font-family: 'Google Sans', sans-serif;
       font-size: 1.1rem;
       font-weight: 700;
-      margin: 0;
     }
 
     .menu-toggle {
@@ -430,10 +598,6 @@
     @media (max-width: 1024px) {
       .sidebar {
         width: 240px;
-      }
-
-      .panel {
-        width: 400px;
       }
 
       .t-header,
@@ -465,12 +629,12 @@
         bottom: 0;
         z-index: 150;
         width: 280px;
-        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: left .3s cubic-bezier(.4, 0, .2, 1);
       }
 
       .sidebar.open {
         left: 0;
-        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.2);
+        box-shadow: 4px 0 24px rgba(0, 0, 0, .2);
       }
 
       .main-header {
@@ -490,13 +654,11 @@
 
       .t-header {
         display: none;
-        /* Hide header on mobile for stacking */
       }
 
       .t-row {
         grid-template-columns: 1fr;
         padding: 16px 0;
-        border-bottom: 1px solid #e8e3db;
         gap: 8px;
         position: relative;
       }
@@ -520,218 +682,242 @@
 </head>
 
 <body>
-  <div class="mobile-header">
-    <h2>Banco de Problemas</h2>
-    <button class="menu-toggle" id="menu-toggle">☰</button>
-  </div>
 
-  <div class="overlay" id="sidebar-overlay"></div>
-
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-logo">
-      <h2>Banco de<br><em>Problemas Provincial</em></h2>
-      <p>creado por la Agencia Neuquina de Innovación para el Desarrollo</p>
-    </div>
-    <div class="sidebar-stats">
-      <div class="s-stat">
-        <div class="num" id="showing-count">17</div>
-        <div class="lbl">Problemas</div>
-      </div>
-      <div class="s-stat">
-        <div class="num">7</div>
-        <div class="lbl">Regiones</div>
-      </div>
-    </div>
-    <div class="sidebar-search">
-      <input class="s-search" type="text" placeholder="Buscar..." id="search">
-    </div>
-    <div class="sidebar-regions">
-      <div class="sidebar-section-label">Regiones</div>
-      <div class="region-item active" data-region="TODOS">
-        <div class="region-color-bar"
-          style="background: linear-gradient(180deg,#ff4e1a,#00b4d8,#6c29c9,#f59e0b,#22c55e,#f43f8e,#14b8a6)"></div>
-        <span>Todas</span>
-        <span class="region-count">17</span>
-      </div>
-      <div class="region-item" data-region="DEL LIMAY" style="--rc:var(--limay)">
-        <div class="region-color-bar" style="background:var(--limay)"></div>
-        <span>Del Limay</span>
-        <span class="region-count">4</span>
-      </div>
-      <div class="region-item" data-region="LAGOS DEL SUR">
-        <div class="region-color-bar" style="background:var(--lagos)"></div>
-        <span>Lagos del Sur</span>
-        <span class="region-count">1</span>
-      </div>
-      <div class="region-item" data-region="VACA MUERTA">
-        <div class="region-color-bar" style="background:var(--vaca)"></div>
-        <span>Vaca Muerta</span>
-        <span class="region-count">3</span>
-      </div>
-      <div class="region-item" data-region="ALTO NEUQUÉN">
-        <div class="region-color-bar" style="background:var(--alto)"></div>
-        <span>Alto Neuquén</span>
-        <span class="region-count">1</span>
-      </div>
-      <div class="region-item" data-region="DEL PEHUEN">
-        <div class="region-color-bar" style="background:var(--pehuen)"></div>
-        <span>Del Pehuen</span>
-        <span class="region-count">1</span>
-      </div>
-      <div class="region-item" data-region="COMARCA">
-        <div class="region-color-bar" style="background:var(--comarca)"></div>
-        <span>Comarca</span>
-        <span class="region-count">5</span>
-      </div>
-      <div class="region-item" data-region="CONFLUENCIA">
-        <div class="region-color-bar" style="background:var(--confluencia)"></div>
-        <span>Confluencia</span>
-        <span class="region-count">2</span>
-      </div>
-    </div>
-  </aside>
-
-  <main class="main">
-    <div class="main-header">
-      <h1>Problemas <span id="region-label">— Todas las regiones</span></h1>
-      <div class="active-region-badge" id="region-badge" style="background:#0f0f14; display:none"></div>
-    </div>
-    <div class="table-area">
-      <div class="t-header">
-        <div>#</div>
-        <div>Región / Ubicación</div>
-        <div>Problemática</div>
-        <div></div>
-      </div>
-      <div id="table-body"></div>
-      <div class="no-results" id="no-results" style="display:none">Sin resultados</div>
-    </div>
-  </main>
-
-  <div class="detail-panel" id="panel">
-    <div class="panel-top">
-      <div class="panel-close"><button class="close-btn" id="panel-close">×</button></div>
-      <div class="panel-region-tag" id="panel-region"></div>
-      <div class="panel-location" id="panel-location"></div>
-      <div class="panel-title" id="panel-title"></div>
-    </div>
-    <div class="panel-body">
-      <p id="panel-desc"></p>
-    </div>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <!-- ══════════════════════════════════════
+     CONFIGURACIÓN — solo modificás esto
+     ══════════════════════════════════════ -->
   <script>
-    const COLORS = {
+    // URL CSV publicada de tu Google Sheet
+    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT994rvUHHUIe64jIBbDKDa-ufcqo-1H1yFi1fT5I30gIcGCkwTshR1HMhFrQmqnyqFpE_AA2yChSJQ/pub?gid=0&single=true&output=csv';
+
+    // Nombre EXACTO de la columna en el Sheet con el link de cada Google Doc
+    const COL_DOC = 'doc_url';
+
+    // Colores por región — agregá filas si sumás regiones nuevas
+    const REGION_COLORS = {
       'DEL LIMAY': '#ff4e1a',
       'LAGOS DEL SUR': '#00b4d8',
       'VACA MUERTA': '#6c29c9',
       'ALTO NEUQUÉN': '#f59e0b',
       'DEL PEHUEN': '#22c55e',
       'COMARCA': '#f43f8e',
-      'CONFLUENCIA': '#14b8a6'
+      'CONFLUENCIA': '#14b8a6',
     };
+  </script>
+  <!-- ════════════════════════════════════ -->
 
-    let DATA = [];
+  <div class="mobile-header">
+    <h2>Banco de Problemas</h2>
+    <button class="menu-toggle" id="menu-toggle">☰</button>
+  </div>
 
-    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT994rvUHHUIe64jIBbDKDa-ufcqo-1H1yFi1fT5I30gIcGCkwTshR1HMhFrQmqnyqFpE_AA2yChSJQ/pub?gid=0&single=true&output=csv';
+  <div class="overlay" id="overlay"></div>
 
-    function loadData() {
-      Papa.parse(CSV_URL, {
-        download: true,
-        header: true,
-        skipEmptyLines: true,
-        complete: function (results) {
-          let lastRegion = '';
-          DATA = [];
-          results.data.forEach(row => {
-            let rawRegion = row['REGIÓN'] || row['REGION'] || '';
-            rawRegion = rawRegion.trim();
-            if (rawRegion) lastRegion = rawRegion;
-            else rawRegion = lastRegion;
-            if (!row['nombre del problema'] || !row['nombre del problema'].trim()) return;
-            DATA.push({
-              region: rawRegion.toUpperCase(),
-              ubicacion: (row['Ubicación'] || row['ubicacion'] || '').trim(),
-              nombre: (row['nombre del problema'] || '').trim(),
-              desc: (row['descripción del problema'] || '').trim()
-            });
-          });
-          updateSidebarCounts();
-          renderTable();
-        },
-        error: function (err) {
-          console.error('Error parsing CSV:', err);
-          alert('Hubo un error cargando los datos. Al abrir el archivo localmente es posible que tu navegador bloquee la petición (CORS). Intenta abrir el archivo mediante Live Server de VSCode u otro servidor local.');
-        }
-      });
-    }
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <h2>Banco de<br><em>Problemas Provincial</em></h2>
+      <p>Agencia Neuquina de Innovación para el Desarrollo</p>
+    </div>
+    <div class="sidebar-stats">
+      <div class="s-stat">
+        <div class="num" id="stat-showing">—</div>
+        <div class="lbl">Mostrando</div>
+      </div>
+      <div class="s-stat">
+        <div class="num" id="stat-total">—</div>
+        <div class="lbl">Total</div>
+      </div>
+      <div class="s-stat">
+        <div class="num" id="stat-regions">—</div>
+        <div class="lbl">Regiones</div>
+      </div>
+    </div>
+    <div class="sidebar-search">
+      <input class="s-search" type="text" id="search" placeholder="Buscar problemáticas...">
+    </div>
+    <div class="sidebar-regions">
+      <div class="sidebar-section-label">Regiones</div>
+      <div id="region-list"></div>
+    </div>
+  </aside>
 
-    function updateSidebarCounts() {
-      const counts = { 'TODOS': DATA.length };
-      const uniqueRegions = new Set();
-      DATA.forEach(d => {
-        counts[d.region] = (counts[d.region] || 0) + 1;
-        if (d.region) uniqueRegions.add(d.region);
-      });
-      document.querySelector('.sidebar-stats .s-stat:nth-child(2) .num').textContent = uniqueRegions.size;
-      document.querySelectorAll('.region-item').forEach(item => {
-        const r = item.dataset.region;
-        const countSpan = item.querySelector('.region-count');
-        if (countSpan) {
-          countSpan.textContent = counts[r] || 0;
-        }
-      });
-    }
+  <main class="main">
+    <div class="main-header">
+      <h1>Problemáticas <span id="region-label">— Todas las regiones</span></h1>
+      <div class="active-region-badge" id="region-badge"></div>
+    </div>
+    <div class="table-area">
+      <div class="t-header">
+        <div>#</div>
+        <div>Región · Ubicación</div>
+        <div>Problemática</div>
+        <div></div>
+      </div>
+      <div id="table-body"></div>
+      <div class="state-msg" id="state-loading" style="display:flex">
+        <div class="spinner"></div>Cargando datos…
+      </div>
+      <div class="state-msg" id="state-error">
+        <div class="icon">⚠️</div>
+        No se pudieron cargar los datos.
+        <small>Verificá que el Sheet esté publicado como CSV<br>(Archivo → Publicar en la web → CSV).</small>
+      </div>
+      <div class="state-msg" id="state-empty">
+        <div class="icon">🔍</div>Sin resultados para esta búsqueda.
+      </div>
+    </div>
+  </main>
 
-    /* const OLD_DATA = [
-      { region: 'DEL LIMAY', ubicacion: 'Paso Aguerre, El Sauce y Santo Tomas', nombre: 'Falta de sistema de recolección en las localidades de Paso Aguerre, El Sauce y Santo Tomas', desc: 'En las localidades rurales de Paso Aguerre (372 hab.), Santo Tomas (427 hab.) y El Sauce (432 hab.) no existe un sistema de recolección domiciliaria de residuos. Las personas recurren al entierro o a la quema. Esta situación está relacionada con la distancia a centros urbanos y el tipo de actividad productiva local. Las principales consecuencias son la contaminación del suelo y la aparición de enfermedades evitables.' },
-      { region: 'DEL LIMAY', ubicacion: 'Picun Leufú y Piedra del Aguila', nombre: 'Falta de concientización sobre el valor del agua y su cuidado', desc: 'Baja concientización respecto del valor del agua potable. El servicio domiciliario es gratuito, generando resistencia al pago y dificultades para sostener la infraestructura. Esto afecta la recaudación municipal y limita la inversión en calidad del servicio.' },
-      { region: 'DEL LIMAY', ubicacion: 'Paso Aguerre', nombre: 'Diversificación de los productos de la Planta de Alimento de Paso Aguerre', desc: 'Planta de alimentos balanceados con capacidad de 8.000 kg/día y alto nivel de capacidad ociosa. Se busca desarrollar un alimento con perfil proteico para ovejas y caballos. Se realizan pruebas con triticale, cultivo resistente adaptado al régimen hídrico local.' },
-      { region: 'DEL LIMAY', ubicacion: 'Paso Aguerre', nombre: 'Digitalización y modernización del Museo Jorge Nestor Aguila', desc: 'El Museo requiere digitalización para preservar y difundir el patrimonio cultural regional, mejorar el acceso comunitario a los registros históricos y facilitar la gestión del acervo cultural.' },
-      { region: 'LAGOS DEL SUR', ubicacion: 'SMA, VLA y Junín de los Andes', nombre: 'Uso de barros activos generados por plantas de tratamiento cloacal', desc: 'Las plantas de tratamiento de líquidos cloacales generan barros activos sin destino adecuado. Se requieren protocolos y tecnologías para su tratamiento y aprovechamiento como recursos útiles para la región.' },
-      { region: 'VACA MUERTA', ubicacion: 'Barrancas', nombre: 'Adecuación planta de Tratamientos Cloacales', desc: 'La planta cloacal de Barrancas requiere adecuación para responder al crecimiento poblacional asociado a la actividad hidrocarburífera de Vaca Muerta.' },
-      { region: 'VACA MUERTA', ubicacion: 'Barrancas', nombre: 'Adecuación basural a cielo abierto', desc: 'El basural a cielo abierto representa un riesgo ambiental y sanitario. Se requiere su adecuación o cierre técnico con implementación de un sistema de gestión de RSU apropiado.' },
-      { region: 'VACA MUERTA', ubicacion: 'Barrancas', nombre: 'Déficit en la infraestructura de drenaje pluvial frente a lluvias intensas', desc: 'Déficit en infraestructura de drenaje pluvial que genera inundaciones durante lluvias intensas, afectando la habitabilidad y la infraestructura vial de la localidad.' },
-      { region: 'ALTO NEUQUÉN', ubicacion: 'Chorriaca', nombre: 'Deficiente gestión de residuos sólidos urbanos (RSU) y basurales a cielo abierto', desc: 'Gestión deficiente de RSU con presencia de basurales a cielo abierto que generan impactos negativos sobre el ambiente y la salud. Se requiere un sistema integral adaptado a las características de la localidad.' },
-      { region: 'DEL PEHUEN', ubicacion: 'Aluminé', nombre: 'Carencia del recurso agua', desc: 'Aluminé enfrenta problemas de acceso y disponibilidad del recurso hídrico para consumo humano y actividades productivas, afectando tanto a población urbana como a comunidades rurales y mapuches.' },
-      { region: 'COMARCA', ubicacion: 'Sauzal Bonito', nombre: 'Situación actual del basurero', desc: 'El basurero presenta condiciones inadecuadas para la disposición final de residuos. Se requiere cierre o adecuación del sitio actual e implementación de un sistema de gestión apropiado.' },
-      { region: 'COMARCA', ubicacion: 'Sauzal Bonito', nombre: 'Ampliación del ejido', desc: 'Se requiere ampliación del ejido municipal para ordenar el crecimiento urbano, regularizar asentamientos existentes y planificar el desarrollo futuro de manera ordenada y sustentable.' },
-      { region: 'COMARCA', ubicacion: 'Sauzal Bonito', nombre: 'Canal con bajo caudal', desc: 'El canal de riego presenta problemas de caudal insuficiente que afecta las actividades agrícolas. Se requieren soluciones técnicas para garantizar el abastecimiento adecuado.' },
-      { region: 'COMARCA', ubicacion: 'Cutral Co', nombre: 'Falta de acceso adecuado al agua potable', desc: 'Dificultades en el acceso y calidad del agua potable. Se identifican problemas en la infraestructura de distribución y en la capacidad de los sistemas de potabilización.' },
-      { region: 'COMARCA', ubicacion: 'Plaza Huincul', nombre: 'Situación vial de la Ruta 22 y la Avenida Principal de Plaza Huincul', desc: 'La Ruta 22 y la Avenida Principal presentan condiciones inadecuadas que afectan la seguridad vial. Deterioro de pavimento, señalización deficiente y ausencia de infraestructura peatonal adecuada.' },
-      { region: 'CONFLUENCIA', ubicacion: 'Plottier', nombre: 'Sistema cloacal y de saneamiento deficiente', desc: 'Sistema cloacal con capacidad insuficiente y cobertura incompleta, representando un riesgo ambiental para la cuenca del río Neuquén.' },
-      { region: 'CONFLUENCIA', ubicacion: 'Neuquén', nombre: 'Comité de Evaluación de Tecnologías Sanitarias sin cientistas sociales capacitados', desc: 'El Comité de Evaluación de Tecnologías Sanitarias no cuenta con cientistas sociales capacitados en investigación cualitativa y trabajo de campo, limitando la perspectiva social en sus evaluaciones.' }
-    ]; */
+  <!-- PANEL -->
+  <div class="detail-panel" id="panel">
+    <div class="panel-head">
+      <div class="panel-head-top">
+        <div class="panel-meta">
+          <div class="panel-region-tag" id="panel-region"></div>
+          <div class="panel-location" id="panel-location"></div>
+          <div class="panel-title" id="panel-title"></div>
+        </div>
+        <button class="close-btn" id="panel-close" aria-label="Cerrar">×</button>
+      </div>
+    </div>
 
+    <div class="panel-tabs" id="panel-tabs">
+      <div class="panel-tab active tab-resumen" data-tab="resumen">📋 Resumen</div>
+      <div class="panel-tab tab-doc" data-tab="doc">📄 Ficha completa</div>
+    </div>
+
+    <div class="panel-bodies">
+      <!-- Resumen -->
+      <div class="panel-body-resumen" id="body-resumen">
+        <p id="panel-desc"></p>
+      </div>
+
+      <!-- Ficha embebida -->
+      <div class="panel-body-doc hidden" id="body-doc">
+        <div class="doc-loading" id="doc-loading">
+          <div class="spinner"></div>Cargando documento…
+        </div>
+        <iframe class="doc-frame" id="doc-frame" title="Ficha completa" allowfullscreen></iframe>
+        <a class="doc-open-link" id="doc-open-link" href="#" target="_blank" rel="noopener">
+          ↗ Abrir en Google Docs
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <script>
+    const $ = id => document.getElementById(id);
+    let ALL_DATA = [];
     let currentRegion = 'TODOS';
     let currentSearch = '';
+    let activeTab = 'resumen';
 
-    function renderTable() {
-      const body = document.getElementById('table-body');
-      const noResults = document.getElementById('no-results');
+    const color = r => REGION_COLORS[r?.trim()] ?? '#888888';
+    const toTitle = str => str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
 
-      const filtered = DATA.filter(d => {
-        const matchRegion = currentRegion === 'TODOS' || d.region.trim() === currentRegion.trim();
-        const q = currentSearch.toLowerCase();
-        const matchSearch = !q || d.nombre.toLowerCase().includes(q) || d.ubicacion.toLowerCase().includes(q) || d.desc.toLowerCase().includes(q);
-        return matchRegion && matchSearch;
+    function showState(name) {
+      ['loading', 'error', 'empty'].forEach(s => {
+        $(`state-${s}`).style.display = s === name ? 'flex' : 'none';
       });
+    }
 
-      document.getElementById('showing-count').textContent = filtered.length;
+    /* ── Carga ── */
+    function loadData() {
+      showState('loading');
+      Papa.parse(CSV_URL, {
+        download: true, header: true, skipEmptyLines: true,
+        complete({ data }) {
+          let lastRegion = '';
+          ALL_DATA = [];
+          data.forEach(row => {
+            let reg = (row['REGIÓN'] || row['REGION'] || '').trim().toUpperCase();
+            if (reg) lastRegion = reg; else reg = lastRegion;
+            const nombre = (row['nombre del problema'] || '').trim();
+            if (!nombre) return;
+            ALL_DATA.push({
+              region: reg,
+              ubicacion: (row['Ubicación'] || row['ubicacion'] || '').trim(),
+              nombre,
+              desc: (row['descripción del problema'] || row['descripcion del problema'] || '').trim(),
+              docUrl: (row[COL_DOC] || '').trim(),
+            });
+          });
+          showState(null);
+          buildSidebar();
+          render();
+        },
+        error(err) { console.error(err); showState('error'); }
+      });
+    }
+
+    /* ── Sidebar ── */
+    function buildSidebar() {
+      const counts = {}, regions = [];
+      ALL_DATA.forEach(d => {
+        if (!counts[d.region]) { counts[d.region] = 0; regions.push(d.region); }
+        counts[d.region]++;
+      });
+      $('stat-total').textContent = ALL_DATA.length;
+      $('stat-regions').textContent = regions.length;
+
+      const list = $('region-list');
+      list.innerHTML = '';
+      list.appendChild(makeRegionItem('TODOS', ALL_DATA.length,
+        `linear-gradient(180deg,${Object.values(REGION_COLORS).slice(0, 5).join(',')})`, 'Todas'));
+      regions.forEach(r => list.appendChild(makeRegionItem(r, counts[r], color(r), toTitle(r))));
+      list.firstChild.classList.add('active');
+    }
+
+    function makeRegionItem(region, count, bg, label) {
+      const el = document.createElement('div');
+      el.className = 'region-item';
+      el.dataset.region = region;
+      el.innerHTML = `<div class="region-color-bar" style="background:${bg}"></div><span>${label}</span><span class="region-count">${count}</span>`;
+      el.addEventListener('click', () => {
+        document.querySelectorAll('.region-item').forEach(i => i.classList.remove('active'));
+        el.classList.add('active');
+        currentRegion = region;
+        updateHeader();
+        render();
+        if (window.innerWidth <= 768) closeSidebar();
+      });
+      return el;
+    }
+
+    function updateHeader() {
+      const label = $('region-label'), badge = $('region-badge');
+      if (currentRegion === 'TODOS') {
+        label.textContent = '— Todas las regiones';
+        badge.style.display = 'none';
+      } else {
+        label.textContent = '';
+        badge.style.cssText = `display:inline-flex;background:${color(currentRegion)}`;
+        badge.textContent = toTitle(currentRegion);
+      }
+    }
+
+    /* ── Render ── */
+    function render() {
+      const q = currentSearch.toLowerCase();
+      const filtered = ALL_DATA.filter(d => {
+        const matchR = currentRegion === 'TODOS' || d.region === currentRegion;
+        const matchS = !q || [d.nombre, d.ubicacion, d.desc, d.region].some(v => v.toLowerCase().includes(q));
+        return matchR && matchS;
+      });
+      $('stat-showing').textContent = filtered.length;
+      const body = $('table-body');
       body.innerHTML = '';
-
-      if (filtered.length === 0) { noResults.style.display = 'block'; return; }
-      noResults.style.display = 'none';
-
+      if (!filtered.length) { showState('empty'); return; }
+      showState(null);
       filtered.forEach((d, i) => {
-        const color = COLORS[d.region.trim()] || '#888';
+        const c = color(d.region);
         const row = document.createElement('div');
         row.className = 't-row';
         row.innerHTML = `
       <div class="t-index">${String(i + 1).padStart(2, '0')}</div>
-      <div class="t-loc-block">
-        <div class="t-region-tag" style="background:${color}">${d.region.trim()}</div>
+      <div>
+        <div class="t-region-tag" style="background:${c}">${toTitle(d.region)}</div>
         <div class="t-location">${d.ubicacion}</div>
       </div>
       <div class="t-name">${d.nombre}</div>
@@ -742,61 +928,101 @@
       });
     }
 
+    /* ── Panel ── */
     function openPanel(d) {
-      const color = COLORS[d.region.trim()] || '#888';
-      document.getElementById('panel-region').textContent = d.region.trim();
-      document.getElementById('panel-region').style.background = color;
-      document.getElementById('panel-location').textContent = '📍 ' + d.ubicacion;
-      document.getElementById('panel-title').textContent = d.nombre;
-      document.getElementById('panel-desc').textContent = d.desc;
-      document.getElementById('panel').classList.add('open');
-      document.getElementById('sidebar-overlay').classList.add('open');
+      const c = color(d.region);
+      $('panel-region').textContent = toTitle(d.region);
+      $('panel-region').style.background = c;
+      $('panel-location').textContent = '📍 ' + d.ubicacion;
+      $('panel-title').textContent = d.nombre;
+      $('panel-desc').textContent = d.desc;
+      $('panel').dataset.docUrl = d.docUrl || '';
+
+      // Mostrar/ocultar tab de ficha según si hay doc
+      const tabs = $('panel-tabs');
+      if (d.docUrl) {
+        tabs.classList.remove('no-doc');
+      } else {
+        tabs.classList.add('no-doc');
+        // Inyectar aviso en el cuerpo del doc si no hay URL
+        $('body-doc').innerHTML = `
+      <div class="no-doc-hint">
+        <strong>📎 Ficha completa no disponible aún</strong>
+        Para vincular el documento de este problema, agregá su URL en la columna
+        <code>${COL_DOC}</code> del Google Sheet.<br><br>
+        Pasos: abrí el Google Doc → <em>Archivo → Publicar en la web → Publicar</em>
+        → copiá la URL → pegala en la columna <code>${COL_DOC}</code> de esta fila.
+      </div>`;
+      }
+
+      switchTab('resumen', false);
+      $('panel').classList.add('open');
+      $('overlay').classList.add('open');
+    }
+
+    function loadDoc(url) {
+      // Reconstruir el cuerpo del doc (por si fue reemplazado por el hint)
+      $('body-doc').innerHTML = `
+    <div class="doc-loading" id="doc-loading"><div class="spinner"></div>Cargando documento…</div>
+    <iframe class="doc-frame" id="doc-frame" title="Ficha completa" allowfullscreen></iframe>
+    <a class="doc-open-link" id="doc-open-link" href="${url}" target="_blank" rel="noopener">↗ Abrir en Google Docs</a>
+  `;
+      // Construir URL de embed correcta según el tipo de link
+      let embedUrl = url;
+      if (url.includes('docs.google.com/document')) {
+        if (url.includes('/pub')) {
+          // URL publicada (Archivo → Publicar en la web) → agregar ?embedded=true
+          embedUrl = url.split('?')[0] + '?embedded=true';
+        } else if (url.includes('/edit')) {
+          // URL de edición → convertir a /preview
+          embedUrl = url.replace(/\/edit.*$/, '/preview');
+        } else if (!url.includes('/preview')) {
+          embedUrl = url.replace(/\/$/, '') + '/preview';
+        }
+      }
+      const frame = $('doc-frame');
+      const loading = $('doc-loading');
+      let loaded = false;
+      frame.onload = () => { loaded = true; loading.classList.add('hidden'); };
+      // Fallback: ocultar spinner tras 5s por si onload no dispara
+      setTimeout(() => { if (!loaded) loading.classList.add('hidden'); }, 5000);
+      frame.src = embedUrl;
+    }
+
+    function switchTab(tab, doLoad = true) {
+      activeTab = tab;
+      document.querySelectorAll('.panel-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+      $('body-resumen').classList.toggle('hidden', tab !== 'resumen');
+      $('body-doc').classList.toggle('hidden', tab !== 'doc');
+      if (tab === 'doc' && doLoad) {
+        const url = $('panel').dataset.docUrl;
+        if (url) loadDoc(url);
+      }
     }
 
     function closePanel() {
-      document.getElementById('panel').classList.remove('open');
-      document.getElementById('sidebar-overlay').classList.remove('open'); // Using shared overlay or close both
-      document.getElementById('sidebar').classList.remove('open');
+      $('panel').classList.remove('open');
+      $('overlay').classList.remove('open');
+      $('sidebar').classList.remove('open');
+      // limpiar iframe
+      const f = $('doc-frame');
+      if (f) f.src = '';
     }
 
-    document.getElementById('panel-close').addEventListener('click', closePanel);
-    document.getElementById('sidebar-overlay').addEventListener('click', closePanel);
+    function closeSidebar() {
+      $('sidebar').classList.remove('open');
+      $('overlay').classList.remove('open');
+    }
 
-    document.getElementById('menu-toggle').addEventListener('click', () => {
-      document.getElementById('sidebar').classList.add('open');
-      document.getElementById('sidebar-overlay').classList.add('open');
-      document.getElementById('panel').classList.remove('open'); // close panel just in case
+    /* ── Eventos ── */
+    $('panel-close').addEventListener('click', closePanel);
+    $('overlay').addEventListener('click', () => {
+      $('sidebar').classList.contains('open') ? closeSidebar() : closePanel();
     });
-
-    document.querySelectorAll('.region-item').forEach(item => {
-      item.addEventListener('click', () => {
-        document.querySelectorAll('.region-item').forEach(i => i.classList.remove('active'));
-        item.classList.add('active');
-        currentRegion = item.dataset.region;
-        const regionLabel = document.getElementById('region-label');
-        const badge = document.getElementById('region-badge');
-        if (currentRegion === 'TODOS') {
-          regionLabel.textContent = '— Todas las regiones';
-          badge.style.display = 'none';
-        } else {
-          const color = COLORS[currentRegion.trim()] || '#888';
-          regionLabel.textContent = '';
-          badge.style.background = color;
-          badge.textContent = currentRegion;
-          badge.style.display = 'inline-flex';
-        }
-        renderTable();
-        // Cierra sidebar en mobile al seleccionar una región
-        if (window.innerWidth <= 768) {
-          closePanel();
-        }
-      });
-    });
-
-    document.getElementById('search').addEventListener('input', e => {
-      currentSearch = e.target.value;
-      renderTable();
-    });
+    document.querySelectorAll('.panel-tab').forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)));
+    $('menu-toggle').addEventListener('click', () => { $('sidebar').classList.add('open'); $('overlay').classList.add('open'); });
+    $('search').addEventListener('input', e => { currentSearch = e.target.value; render(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
 
     loadData();
   </script>
