@@ -380,7 +380,7 @@
       position: fixed;
       inset: 0;
       background: rgba(0, 0, 0, 0.2);
-      z-index: 199;
+      z-index: 100;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.3s;
@@ -398,12 +398,136 @@
       color: var(--muted);
       font-size: 0.85rem;
     }
+
+    /* RESPONSIVE DESIGN */
+    .mobile-header {
+      display: none;
+      background: var(--text);
+      color: white;
+      padding: 16px 24px;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+    }
+
+    .mobile-header h2 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .menu-toggle {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    @media (max-width: 1024px) {
+      .sidebar {
+        width: 240px;
+      }
+
+      .panel {
+        width: 400px;
+      }
+
+      .t-header,
+      .t-row {
+        grid-template-columns: 24px 140px 1fr 24px;
+        gap: 12px;
+      }
+
+      .main-header,
+      .table-area {
+        padding-left: 32px;
+        padding-right: 32px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      .mobile-header {
+        display: flex;
+      }
+
+      .sidebar {
+        position: fixed;
+        left: -100%;
+        top: 0;
+        bottom: 0;
+        z-index: 150;
+        width: 280px;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .sidebar.open {
+        left: 0;
+        box-shadow: 4px 0 24px rgba(0, 0, 0, 0.2);
+      }
+
+      .main-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 24px;
+      }
+
+      .main-header h1 {
+        font-size: 1.5rem;
+      }
+
+      .table-area {
+        padding: 0 24px 24px;
+      }
+
+      .t-header {
+        display: none;
+        /* Hide header on mobile for stacking */
+      }
+
+      .t-row {
+        grid-template-columns: 1fr;
+        padding: 16px 0;
+        border-bottom: 1px solid #e8e3db;
+        gap: 8px;
+        position: relative;
+      }
+
+      .t-index {
+        display: none;
+      }
+
+      .t-chevron {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .detail-panel {
+        width: 100%;
+      }
+    }
   </style>
 </head>
 
 <body>
+  <div class="mobile-header">
+    <h2>Banco de Problemas</h2>
+    <button class="menu-toggle" id="menu-toggle">☰</button>
+  </div>
 
-  <aside class="sidebar">
+  <div class="overlay" id="sidebar-overlay"></div>
+
+  <aside class="sidebar" id="sidebar">
     <div class="sidebar-logo">
       <h2>Banco de<br><em>Problemas Provincial</em></h2>
       <p>creado por la Agencia Neuquina de Innovación para el Desarrollo</p>
@@ -484,7 +608,6 @@
     </div>
   </main>
 
-  <div class="overlay" id="overlay"></div>
   <div class="detail-panel" id="panel">
     <div class="panel-top">
       <div class="panel-close"><button class="close-btn" id="panel-close">×</button></div>
@@ -627,16 +750,23 @@
       document.getElementById('panel-title').textContent = d.nombre;
       document.getElementById('panel-desc').textContent = d.desc;
       document.getElementById('panel').classList.add('open');
-      document.getElementById('overlay').classList.add('open');
+      document.getElementById('sidebar-overlay').classList.add('open');
     }
 
     function closePanel() {
       document.getElementById('panel').classList.remove('open');
-      document.getElementById('overlay').classList.remove('open');
+      document.getElementById('sidebar-overlay').classList.remove('open'); // Using shared overlay or close both
+      document.getElementById('sidebar').classList.remove('open');
     }
 
     document.getElementById('panel-close').addEventListener('click', closePanel);
-    document.getElementById('overlay').addEventListener('click', closePanel);
+    document.getElementById('sidebar-overlay').addEventListener('click', closePanel);
+
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.add('open');
+      document.getElementById('sidebar-overlay').classList.add('open');
+      document.getElementById('panel').classList.remove('open'); // close panel just in case
+    });
 
     document.querySelectorAll('.region-item').forEach(item => {
       item.addEventListener('click', () => {
@@ -656,6 +786,10 @@
           badge.style.display = 'inline-flex';
         }
         renderTable();
+        // Cierra sidebar en mobile al seleccionar una región
+        if (window.innerWidth <= 768) {
+          closePanel();
+        }
       });
     });
 
