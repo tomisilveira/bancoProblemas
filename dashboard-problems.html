@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banco de Problemas Provincial creado por la Agencia Neuquina de Innovación para el Desarrollo</title>
+  <link href="https://fonts.cdnfonts.com/css/google-sans" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f5f2;
+      --white: #ffffff;
+      --text: #0f0f14;
+      --muted: #8a8898;
+      --limay: #ff4e1a;
+      --lagos: #00b4d8;
+      --vaca: #6c29c9;
+      --alto: #f59e0b;
+      --pehuen: #22c55e;
+      --comarca: #f43f8e;
+      --confluencia: #14b8a6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Google Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 280px;
+      flex-shrink: 0;
+      background: var(--text);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .sidebar-logo {
+      padding: 36px 28px 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .sidebar-logo h2 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .sidebar-logo h2 em {
+      font-style: italic;
+    }
+
+    .sidebar-logo p {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.75rem;
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    .sidebar-stats {
+      padding: 20px 28px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      gap: 20px;
+    }
+
+    .s-stat .num {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .s-stat .lbl {
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-top: 2px;
+    }
+
+    .sidebar-search {
+      padding: 16px 28px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .s-search {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: white;
+      font-family: 'Google Sans', sans-serif;
+      font-size: 0.8rem;
+      padding: 10px 14px;
+      outline: none;
+      border-radius: 4px;
+      transition: border-color 0.2s;
+    }
+
+    .s-search::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .s-search:focus {
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .sidebar-regions {
+      padding: 16px 0;
+      flex: 1;
+    }
+
+    .sidebar-section-label {
+      padding: 0 28px 8px;
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    .region-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 28px;
+      cursor: pointer;
+      transition: background 0.15s;
+      font-size: 0.82rem;
+      font-weight: 500;
+    }
+
+    .region-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .region-item.active {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .region-color-bar {
+      width: 4px;
+      height: 22px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .region-count {
+      margin-left: auto;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 100px;
+      padding: 1px 7px;
+      font-size: 0.65rem;
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* MAIN */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      min-width: 0;
+    }
+
+    .main-header {
+      padding: 40px 48px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #e5e0d8;
+    }
+
+    .main-header h1 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    .main-header h1 span {
+      font-style: italic;
+    }
+
+    .active-region-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: white;
+      transition: background 0.2s;
+    }
+
+    .table-area {
+      padding: 0 48px 48px;
+    }
+
+    .t-header {
+      display: grid;
+      grid-template-columns: 24px 200px 1fr 32px;
+      gap: 16px;
+      padding: 12px 16px;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-top: 20px;
+    }
+
+    .t-row {
+      display: grid;
+      grid-template-columns: 24px 200px 1fr 32px;
+      gap: 16px;
+      padding: 18px 16px;
+      border-bottom: 1px solid #e8e3db;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      border-radius: 4px;
+      margin: 0 -4px;
+    }
+
+    .t-row:hover {
+      background: white;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+      border-color: transparent;
+    }
+
+    .t-index {
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .t-loc-block {}
+
+    .t-region-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: white;
+      margin-bottom: 4px;
+    }
+
+    .t-location {
+      font-size: 0.74rem;
+      color: var(--muted);
+    }
+
+    .t-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .t-chevron {
+      color: var(--muted);
+      font-size: 0.8rem;
+      transition: all 0.2s;
+      justify-self: end;
+    }
+
+    .t-row:hover .t-chevron {
+      color: var(--text);
+      transform: translateX(2px);
+    }
+
+    /* PANEL */
+    .detail-panel {
+      position: fixed;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 460px;
+      background: white;
+      box-shadow: -8px 0 40px rgba(0, 0, 0, 0.12);
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 200;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .detail-panel.open {
+      transform: translateX(0);
+    }
+
+    .panel-top {
+      padding: 32px 36px 24px;
+      position: sticky;
+      top: 0;
+      background: white;
+      border-bottom: 1px solid #f0ebe4;
+    }
+
+    .panel-close {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 20px;
+    }
+
+    .close-btn {
+      width: 32px;
+      height: 32px;
+      border: 1px solid #e8e3db;
+      border-radius: 50%;
+      background: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: var(--muted);
+      transition: all 0.15s;
+    }
+
+    .close-btn:hover {
+      background: var(--text);
+      color: white;
+      border-color: var(--text);
+    }
+
+    .panel-region-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: white;
+      margin-bottom: 12px;
+    }
+
+    .panel-location {
+      color: var(--muted);
+      font-size: 0.78rem;
+      margin-bottom: 16px;
+    }
+
+    .panel-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .panel-body {
+      padding: 28px 36px;
+    }
+
+    .panel-body p {
+      color: #555560;
+      font-size: 0.85rem;
+      line-height: 1.85;
+    }
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.2);
+      z-index: 199;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      backdrop-filter: blur(2px);
+    }
+
+    .overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .no-results {
+      padding: 60px 16px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <h2>Banco de<br><em>Problemas Provincial</em></h2>
+      <p>creado por la Agencia Neuquina de Innovación para el Desarrollo</p>
+    </div>
+    <div class="sidebar-stats">
+      <div class="s-stat">
+        <div class="num" id="showing-count">17</div>
+        <div class="lbl">Problemas</div>
+      </div>
+      <div class="s-stat">
+        <div class="num">7</div>
+        <div class="lbl">Regiones</div>
+      </div>
+    </div>
+    <div class="sidebar-search">
+      <input class="s-search" type="text" placeholder="Buscar..." id="search">
+    </div>
+    <div class="sidebar-regions">
+      <div class="sidebar-section-label">Regiones</div>
+      <div class="region-item active" data-region="TODOS">
+        <div class="region-color-bar"
+          style="background: linear-gradient(180deg,#ff4e1a,#00b4d8,#6c29c9,#f59e0b,#22c55e,#f43f8e,#14b8a6)"></div>
+        <span>Todas</span>
+        <span class="region-count">17</span>
+      </div>
+      <div class="region-item" data-region="DEL LIMAY" style="--rc:var(--limay)">
+        <div class="region-color-bar" style="background:var(--limay)"></div>
+        <span>Del Limay</span>
+        <span class="region-count">4</span>
+      </div>
+      <div class="region-item" data-region="LAGOS DEL SUR">
+        <div class="region-color-bar" style="background:var(--lagos)"></div>
+        <span>Lagos del Sur</span>
+        <span class="region-count">1</span>
+      </div>
+      <div class="region-item" data-region="VACA MUERTA">
+        <div class="region-color-bar" style="background:var(--vaca)"></div>
+        <span>Vaca Muerta</span>
+        <span class="region-count">3</span>
+      </div>
+      <div class="region-item" data-region="ALTO NEUQUÉN">
+        <div class="region-color-bar" style="background:var(--alto)"></div>
+        <span>Alto Neuquén</span>
+        <span class="region-count">1</span>
+      </div>
+      <div class="region-item" data-region="DEL PEHUEN">
+        <div class="region-color-bar" style="background:var(--pehuen)"></div>
+        <span>Del Pehuen</span>
+        <span class="region-count">1</span>
+      </div>
+      <div class="region-item" data-region="COMARCA">
+        <div class="region-color-bar" style="background:var(--comarca)"></div>
+        <span>Comarca</span>
+        <span class="region-count">5</span>
+      </div>
+      <div class="region-item" data-region="CONFLUENCIA">
+        <div class="region-color-bar" style="background:var(--confluencia)"></div>
+        <span>Confluencia</span>
+        <span class="region-count">2</span>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="main-header">
+      <h1>Problemas <span id="region-label">— Todas las regiones</span></h1>
+      <div class="active-region-badge" id="region-badge" style="background:#0f0f14; display:none"></div>
+    </div>
+    <div class="table-area">
+      <div class="t-header">
+        <div>#</div>
+        <div>Región / Ubicación</div>
+        <div>Problemática</div>
+        <div></div>
+      </div>
+      <div id="table-body"></div>
+      <div class="no-results" id="no-results" style="display:none">Sin resultados</div>
+    </div>
+  </main>
+
+  <div class="overlay" id="overlay"></div>
+  <div class="detail-panel" id="panel">
+    <div class="panel-top">
+      <div class="panel-close"><button class="close-btn" id="panel-close">×</button></div>
+      <div class="panel-region-tag" id="panel-region"></div>
+      <div class="panel-location" id="panel-location"></div>
+      <div class="panel-title" id="panel-title"></div>
+    </div>
+    <div class="panel-body">
+      <p id="panel-desc"></p>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <script>
+    const COLORS = {
+      'DEL LIMAY': '#ff4e1a',
+      'LAGOS DEL SUR': '#00b4d8',
+      'VACA MUERTA': '#6c29c9',
+      'ALTO NEUQUÉN': '#f59e0b',
+      'DEL PEHUEN': '#22c55e',
+      'COMARCA': '#f43f8e',
+      'CONFLUENCIA': '#14b8a6'
+    };
+
+    let DATA = [];
+
+    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT994rvUHHUIe64jIBbDKDa-ufcqo-1H1yFi1fT5I30gIcGCkwTshR1HMhFrQmqnyqFpE_AA2yChSJQ/pub?gid=0&single=true&output=csv';
+
+    function loadData() {
+      Papa.parse(CSV_URL, {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: function (results) {
+          let lastRegion = '';
+          DATA = [];
+          results.data.forEach(row => {
+            let rawRegion = row['REGIÓN'] || row['REGION'] || '';
+            rawRegion = rawRegion.trim();
+            if (rawRegion) lastRegion = rawRegion;
+            else rawRegion = lastRegion;
+            if (!row['nombre del problema'] || !row['nombre del problema'].trim()) return;
+            DATA.push({
+              region: rawRegion.toUpperCase(),
+              ubicacion: (row['Ubicación'] || row['ubicacion'] || '').trim(),
+              nombre: (row['nombre del problema'] || '').trim(),
+              desc: (row['descripción del problema'] || '').trim()
+            });
+          });
+          updateSidebarCounts();
+          renderTable();
+        },
+        error: function (err) {
+          console.error('Error parsing CSV:', err);
+          alert('Hubo un error cargando los datos. Al abrir el archivo localmente es posible que tu navegador bloquee la petición (CORS). Intenta abrir el archivo mediante Live Server de VSCode u otro servidor local.');
+        }
+      });
+    }
+
+    function updateSidebarCounts() {
+      const counts = { 'TODOS': DATA.length };
+      const uniqueRegions = new Set();
+      DATA.forEach(d => {
+        counts[d.region] = (counts[d.region] || 0) + 1;
+        if (d.region) uniqueRegions.add(d.region);
+      });
+      document.querySelector('.sidebar-stats .s-stat:nth-child(2) .num').textContent = uniqueRegions.size;
+      document.querySelectorAll('.region-item').forEach(item => {
+        const r = item.dataset.region;
+        const countSpan = item.querySelector('.region-count');
+        if (countSpan) {
+          countSpan.textContent = counts[r] || 0;
+        }
+      });
+    }
+
+    /* const OLD_DATA = [
+      { region: 'DEL LIMAY', ubicacion: 'Paso Aguerre, El Sauce y Santo Tomas', nombre: 'Falta de sistema de recolección en las localidades de Paso Aguerre, El Sauce y Santo Tomas', desc: 'En las localidades rurales de Paso Aguerre (372 hab.), Santo Tomas (427 hab.) y El Sauce (432 hab.) no existe un sistema de recolección domiciliaria de residuos. Las personas recurren al entierro o a la quema. Esta situación está relacionada con la distancia a centros urbanos y el tipo de actividad productiva local. Las principales consecuencias son la contaminación del suelo y la aparición de enfermedades evitables.' },
+      { region: 'DEL LIMAY', ubicacion: 'Picun Leufú y Piedra del Aguila', nombre: 'Falta de concientización sobre el valor del agua y su cuidado', desc: 'Baja concientización respecto del valor del agua potable. El servicio domiciliario es gratuito, generando resistencia al pago y dificultades para sostener la infraestructura. Esto afecta la recaudación municipal y limita la inversión en calidad del servicio.' },
+      { region: 'DEL LIMAY', ubicacion: 'Paso Aguerre', nombre: 'Diversificación de los productos de la Planta de Alimento de Paso Aguerre', desc: 'Planta de alimentos balanceados con capacidad de 8.000 kg/día y alto nivel de capacidad ociosa. Se busca desarrollar un alimento con perfil proteico para ovejas y caballos. Se realizan pruebas con triticale, cultivo resistente adaptado al régimen hídrico local.' },
+      { region: 'DEL LIMAY', ubicacion: 'Paso Aguerre', nombre: 'Digitalización y modernización del Museo Jorge Nestor Aguila', desc: 'El Museo requiere digitalización para preservar y difundir el patrimonio cultural regional, mejorar el acceso comunitario a los registros históricos y facilitar la gestión del acervo cultural.' },
+      { region: 'LAGOS DEL SUR', ubicacion: 'SMA, VLA y Junín de los Andes', nombre: 'Uso de barros activos generados por plantas de tratamiento cloacal', desc: 'Las plantas de tratamiento de líquidos cloacales generan barros activos sin destino adecuado. Se requieren protocolos y tecnologías para su tratamiento y aprovechamiento como recursos útiles para la región.' },
+      { region: 'VACA MUERTA', ubicacion: 'Barrancas', nombre: 'Adecuación planta de Tratamientos Cloacales', desc: 'La planta cloacal de Barrancas requiere adecuación para responder al crecimiento poblacional asociado a la actividad hidrocarburífera de Vaca Muerta.' },
+      { region: 'VACA MUERTA', ubicacion: 'Barrancas', nombre: 'Adecuación basural a cielo abierto', desc: 'El basural a cielo abierto representa un riesgo ambiental y sanitario. Se requiere su adecuación o cierre técnico con implementación de un sistema de gestión de RSU apropiado.' },
+      { region: 'VACA MUERTA', ubicacion: 'Barrancas', nombre: 'Déficit en la infraestructura de drenaje pluvial frente a lluvias intensas', desc: 'Déficit en infraestructura de drenaje pluvial que genera inundaciones durante lluvias intensas, afectando la habitabilidad y la infraestructura vial de la localidad.' },
+      { region: 'ALTO NEUQUÉN', ubicacion: 'Chorriaca', nombre: 'Deficiente gestión de residuos sólidos urbanos (RSU) y basurales a cielo abierto', desc: 'Gestión deficiente de RSU con presencia de basurales a cielo abierto que generan impactos negativos sobre el ambiente y la salud. Se requiere un sistema integral adaptado a las características de la localidad.' },
+      { region: 'DEL PEHUEN', ubicacion: 'Aluminé', nombre: 'Carencia del recurso agua', desc: 'Aluminé enfrenta problemas de acceso y disponibilidad del recurso hídrico para consumo humano y actividades productivas, afectando tanto a población urbana como a comunidades rurales y mapuches.' },
+      { region: 'COMARCA', ubicacion: 'Sauzal Bonito', nombre: 'Situación actual del basurero', desc: 'El basurero presenta condiciones inadecuadas para la disposición final de residuos. Se requiere cierre o adecuación del sitio actual e implementación de un sistema de gestión apropiado.' },
+      { region: 'COMARCA', ubicacion: 'Sauzal Bonito', nombre: 'Ampliación del ejido', desc: 'Se requiere ampliación del ejido municipal para ordenar el crecimiento urbano, regularizar asentamientos existentes y planificar el desarrollo futuro de manera ordenada y sustentable.' },
+      { region: 'COMARCA', ubicacion: 'Sauzal Bonito', nombre: 'Canal con bajo caudal', desc: 'El canal de riego presenta problemas de caudal insuficiente que afecta las actividades agrícolas. Se requieren soluciones técnicas para garantizar el abastecimiento adecuado.' },
+      { region: 'COMARCA', ubicacion: 'Cutral Co', nombre: 'Falta de acceso adecuado al agua potable', desc: 'Dificultades en el acceso y calidad del agua potable. Se identifican problemas en la infraestructura de distribución y en la capacidad de los sistemas de potabilización.' },
+      { region: 'COMARCA', ubicacion: 'Plaza Huincul', nombre: 'Situación vial de la Ruta 22 y la Avenida Principal de Plaza Huincul', desc: 'La Ruta 22 y la Avenida Principal presentan condiciones inadecuadas que afectan la seguridad vial. Deterioro de pavimento, señalización deficiente y ausencia de infraestructura peatonal adecuada.' },
+      { region: 'CONFLUENCIA', ubicacion: 'Plottier', nombre: 'Sistema cloacal y de saneamiento deficiente', desc: 'Sistema cloacal con capacidad insuficiente y cobertura incompleta, representando un riesgo ambiental para la cuenca del río Neuquén.' },
+      { region: 'CONFLUENCIA', ubicacion: 'Neuquén', nombre: 'Comité de Evaluación de Tecnologías Sanitarias sin cientistas sociales capacitados', desc: 'El Comité de Evaluación de Tecnologías Sanitarias no cuenta con cientistas sociales capacitados en investigación cualitativa y trabajo de campo, limitando la perspectiva social en sus evaluaciones.' }
+    ]; */
+
+    let currentRegion = 'TODOS';
+    let currentSearch = '';
+
+    function renderTable() {
+      const body = document.getElementById('table-body');
+      const noResults = document.getElementById('no-results');
+
+      const filtered = DATA.filter(d => {
+        const matchRegion = currentRegion === 'TODOS' || d.region.trim() === currentRegion.trim();
+        const q = currentSearch.toLowerCase();
+        const matchSearch = !q || d.nombre.toLowerCase().includes(q) || d.ubicacion.toLowerCase().includes(q) || d.desc.toLowerCase().includes(q);
+        return matchRegion && matchSearch;
+      });
+
+      document.getElementById('showing-count').textContent = filtered.length;
+      body.innerHTML = '';
+
+      if (filtered.length === 0) { noResults.style.display = 'block'; return; }
+      noResults.style.display = 'none';
+
+      filtered.forEach((d, i) => {
+        const color = COLORS[d.region.trim()] || '#888';
+        const row = document.createElement('div');
+        row.className = 't-row';
+        row.innerHTML = `
+      <div class="t-index">${String(i + 1).padStart(2, '0')}</div>
+      <div class="t-loc-block">
+        <div class="t-region-tag" style="background:${color}">${d.region.trim()}</div>
+        <div class="t-location">${d.ubicacion}</div>
+      </div>
+      <div class="t-name">${d.nombre}</div>
+      <div class="t-chevron">→</div>
+    `;
+        row.addEventListener('click', () => openPanel(d));
+        body.appendChild(row);
+      });
+    }
+
+    function openPanel(d) {
+      const color = COLORS[d.region.trim()] || '#888';
+      document.getElementById('panel-region').textContent = d.region.trim();
+      document.getElementById('panel-region').style.background = color;
+      document.getElementById('panel-location').textContent = '📍 ' + d.ubicacion;
+      document.getElementById('panel-title').textContent = d.nombre;
+      document.getElementById('panel-desc').textContent = d.desc;
+      document.getElementById('panel').classList.add('open');
+      document.getElementById('overlay').classList.add('open');
+    }
+
+    function closePanel() {
+      document.getElementById('panel').classList.remove('open');
+      document.getElementById('overlay').classList.remove('open');
+    }
+
+    document.getElementById('panel-close').addEventListener('click', closePanel);
+    document.getElementById('overlay').addEventListener('click', closePanel);
+
+    document.querySelectorAll('.region-item').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.region-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        currentRegion = item.dataset.region;
+        const regionLabel = document.getElementById('region-label');
+        const badge = document.getElementById('region-badge');
+        if (currentRegion === 'TODOS') {
+          regionLabel.textContent = '— Todas las regiones';
+          badge.style.display = 'none';
+        } else {
+          const color = COLORS[currentRegion.trim()] || '#888';
+          regionLabel.textContent = '';
+          badge.style.background = color;
+          badge.textContent = currentRegion;
+          badge.style.display = 'inline-flex';
+        }
+        renderTable();
+      });
+    });
+
+    document.getElementById('search').addEventListener('input', e => {
+      currentSearch = e.target.value;
+      renderTable();
+    });
+
+    loadData();
+  </script>
+</body>
+
+</html>
